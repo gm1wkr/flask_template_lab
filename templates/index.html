@@ -2,34 +2,48 @@
 
 {% block content %}
 
-<h2>Event List</h2>
+<h2>Featured Event List</h2>
 
 <section class="events">
     {% for event in events %}
         <article>
+            
             <h2>{{ event.name }} </h2>
-            <h3>
-                {{ event.date }}
-
-                {% if event.event_repeats %}
-                   <span>&#128257;</span>
-                {% endif %}
-                
-            </h3>
-            <h3>
-                {{ event.room_location }}
-                {{ event.guest_number }}
-            </h3>
-    
             <p>{{ event.description }}</p>
-    
+            
+            <dl>
+                <dt>When?</dt>
+                <dd>{{ event.date }}
+                {% if event.event_repeats %} 
+                <span>&#128257;</span>
+                {% endif %}
+            </dd>
+
+            </dl>
+            
+            <dl>
+                <dt>Where?</dt>
+                <dd>{{ event.room_location }}</dd>
+                
+            </dl>
+            
+            <dl>
+                <dt>How many Places?</dt>
+                <dd><strong>{{ event.guest_number }}</strong></dd>
+                
+            </dl>
+            
+            <form class="delete-event" action="/events/delete/{{loop.index}}" method="post">
+                <input type="submit" name="DELETE Event" value="Delete">
+            </form>
+            
         </article>
         {% endfor %}
 </section>
 
 
 
-    <h2>Add Event</h2>
+    <h2>Add An Event</h2>
     <form action="/events" method="post">
 
         <div class="form_input">
@@ -52,17 +66,23 @@
             <input type="number" name="guest_number" id="guest_number">
         </div>
 
+        <div class="form_input">
+            <label for="event_repeats">Repeats</label>
+            <!-- <input type="checkbox" name="event_repeats" id="event_repeats"> -->
+            <select name="event_repeats" id="event_repeats">
+                <option value="0">One Off Event</option>
+                <option value="1">Repeating Event</option>
+            </select>
+        </div>
+
         <div class="text_input">
             <label for="description">Description</label><br>
-            <textarea placeholder="Enter event description..." name="description" id="description" cols="30" rows="3"></textarea>
+            <textarea placeholder="Please enter a description for the event..." name="description" id="description" cols="30" rows="3"></textarea>
         </div>
 
-        <div class="form_input">
-            <label for="event_repeats">Repeats<label>
-            <input type="checkbox" name="event_repeats" id="event_repeats">
+        <div class="form-submit">
+            <input type="submit" name="Add Event">
         </div>
-
-        <input type="submit" name="Add Event">
 
     </form>
 {% endblock %}
