@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Event List</h2>
+
+<section class="events">
+    {% for event in events %}
+        <article>
+            <h2>{{ event.name }} </h2>
+            <h3>
+                {{ event.date }}
+
+                {% if event.event_repeats %}
+                   <span>&#128257;</span>
+                {% endif %}
+                
+            </h3>
+            <h3>
+                {{ event.room_location }}
+                {{ event.guest_number }}
+            </h3>
+    
+            <p>{{ event.description }}</p>
+    
+        </article>
+        {% endfor %}
+</section>
+
+
+
+    <h2>Add Event</h2>
+    <form action="/events" method="post">
+
+        <div class="form_input">
+            <label for="name">Event Name</label>
+            <input type="text" name="name" id="name">
+        </div>
+
+        <div class="form_input">
+            <label for="date">Date</label>
+            <input type="date" name="date" id="date">
+        </div>
+
+        <div class="form_input">
+            <label for="location">Room Location</label>
+            <input type="text" name="room_location" id="location">
+        </div>
+
+        <div class="form_input">
+            <label for="guest_number">Guest Number</label>
+            <input type="number" name="guest_number" id="guest_number">
+        </div>
+
+        <div class="text_input">
+            <label for="description">Description</label><br>
+            <textarea placeholder="Enter event description..." name="description" id="description" cols="30" rows="3"></textarea>
+        </div>
+
+        <div class="form_input">
+            <label for="event_repeats">Repeats<label>
+            <input type="checkbox" name="event_repeats" id="event_repeats">
+        </div>
+
+        <input type="submit" name="Add Event">
+
+    </form>
+{% endblock %}
